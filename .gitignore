@@ -44,3 +44,6 @@
 *.db-wal
 *.filters
 *.user
+*.opendb
+02_StereoInteractive/.vs/02_StereoInteractive/v15/.suo
+MADDTitle/.vs/MADDTitle/v15/.suo

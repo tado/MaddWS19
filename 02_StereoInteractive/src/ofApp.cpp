@@ -3,8 +3,8 @@
 void ofApp::setup() {
 	ofSetFrameRate(60);
 	ofBackground(0);
-	
-	ofToggleFullscreen();	
+
+	ofToggleFullscreen();
 
 	gui.setup();
 	gui.add(physicalFocus.setup("Physical Focus Distance", 200, 0, 600));
@@ -29,11 +29,11 @@ void ofApp::setup() {
 		particles[i].minz = -ofGetWidth() / 2;
 		particles[i].maxx = ofGetWidth() / 2;
 		particles[i].maxy = ofGetHeight() / 2;
-		particles[i].maxz = ofGetWidth()/2;
+		particles[i].maxz = ofGetWidth() / 2;
 		particles[i].position = ofVec3f(
-			ofRandom(-ofGetWidth()/4, ofGetWidth()/4), 
-			ofRandom(-ofGetHeight()/4, ofGetHeight()/4), 
-			ofRandom(-ofGetWidth()/2, ofGetWidth()/2));
+			ofRandom(-ofGetWidth() / 4, ofGetWidth() / 4),
+			ofRandom(-ofGetHeight() / 4, ofGetHeight() / 4),
+			ofRandom(-ofGetWidth() / 2, ofGetWidth() / 2));
 	}
 }
 
