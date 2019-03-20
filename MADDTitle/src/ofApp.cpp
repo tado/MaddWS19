@@ -3,7 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetFrameRate(60);
-	//ofSetVerticalSync(true);
 	ofBackground(0);
 
 	gui.setup();
@@ -13,6 +12,8 @@ void ofApp::setup() {
 	gui.add(speed.setup("speed", 0.05, 0.0, 100.0));
 	gui.loadFromFile("settings.xml");
 
+	mode = 0;
+	brightness = 0;
 	showGui = false;
 	ofHideCursor();
 	cam.setDistance(1200);
@@ -27,30 +28,48 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	float t = (ofGetElapsedTimef()) * 10.0;
-	for (int i = 0; i < NUM_BILLBOARDS; i++) {
-		ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y / div, billboards.getVertex(i).z / div),
-			ofSignedNoise(billboards.getVertex(i).x / div, t, billboards.getVertex(i).z / div),
-			ofSignedNoise(billboards.getVertex(i).x / div, billboards.getVertex(i).y / div, t));
-		vec *= speed * ofGetLastFrameTime();
-		billboardVels[i] += vec;
-		billboards.getVertices()[i] += billboardVels[i];
-		billboardVels[i] *= friction;
+	if (mode == 0) {
+		for (int i = 0; i < NUM_BILLBOARDS; i++) {
+			billboards.getColors()[i].set(brightness);
+		}
+		brightness += 0.01;
+		if (brightness > 1) {
+			mode = 1;
+		}
+	}
+	else if (mode == 1) {
+		float t = (ofGetElapsedTimef()) * 10.0;
+		for (int i = 0; i < NUM_BILLBOARDS; i++) {
+			ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y / div, billboards.getVertex(i).z / div),
+				ofSignedNoise(billboards.getVertex(i).x / div, t, billboards.getVertex(i).z / div),
+				ofSignedNoise(billboards.getVertex(i).x / div, billboards.getVertex(i).y / div, t));
+			vec *= speed * ofGetLastFrameTime();
+			billboardVels[i] += vec;
+			billboards.getVertices()[i] += billboardVels[i];
+			billboardVels[i] *= friction;
+			billboards.getColors()[i].set(brightness);
+		}
+		brightness -= 0.003;
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
 	cam.begin();
-	ofSetColor(255);
-	ofPushMatrix();
-	ofRotateXDeg(-180);
-	static GLfloat distance[] = { 0.0, 0.0, 1.0 };
-	glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-	glPointSize(particleSize);
-	billboards.draw();
-	//ofDisableBlendMode();
-	ofPopMatrix();
+	if (mode == 0) {
+		ofSetColor(brightness * 255);
+		img.draw(-img.getWidth()/2, -img.getHeight()/2);
+	}
+	else {
+		ofPushMatrix();
+		ofRotateXDeg(-180);
+		static GLfloat distance[] = { 0.0, 0.0, 1.0 };
+		glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
+		glPointSize(particleSize);
+		billboards.draw();
+		//ofDisableBlendMode();
+		ofPopMatrix();
+	}
 	cam.end();
 
 	if (showGui) {
@@ -60,6 +79,9 @@ void ofApp::draw() {
 }
 
 void ofApp::initParticle() {
+	mode = 0;
+	brightness = 0;
+
 	billboards.getVertices().resize(NUM_BILLBOARDS);
 	billboards.getColors().resize(NUM_BILLBOARDS);
 	billboards.getNormals().resize(NUM_BILLBOARDS, ofVec3f(0));
@@ -73,23 +95,14 @@ void ofApp::initParticle() {
 			glm::vec3 pos = glm::vec3(ofRandom(img.getWidth()), ofRandom(img.getHeight()), 0);
 			ofColor col = img.getColor(pos.x, pos.y);
 			if (col.getBrightness() > 200) {
-				billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf());
-				billboards.getVertices()[i] = {pos.x - img.getWidth()/2, pos.y - img.getHeight()/2, 0 };
-				billboards.getColors()[i].set(col);
+				billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf()*2);
+				billboards.getVertices()[i] = { pos.x - img.getWidth() / 2, pos.y - img.getHeight() / 2, 0 };
+				billboards.getColors()[i].set(0);
 				//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
 				break;
 			}
 		}
 	}
-	/*
-	float range = 100;
-	for (int i = 0; i < NUM_BILLBOARDS; i++) {
-		billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf());
-		billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0 };
-		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
-		billboards.getColors()[i].set(255);
-	}
-	*/
 }
 
 //--------------------------------------------------------------

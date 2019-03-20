@@ -37,4 +37,6 @@ public:
 	ofEasyCam cam;
 
 	ofImage img;
+	int mode;
+	float brightness;
 };

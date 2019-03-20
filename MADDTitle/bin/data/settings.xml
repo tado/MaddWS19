@@ -3,8 +3,8 @@
 	<Physical_Focus_Distance>200</Physical_Focus_Distance>
 	<Focus_Distance>750</Focus_Distance>
 	<Eye_Separation>5</Eye_Separation>
-	<Particle_Size>2350</Particle_Size>
-	<div>54.55</div>
-	<friction>0.98625</friction>
-	<speed>18.5</speed>
+	<Particle_Size>4300</Particle_Size>
+	<div>79.3</div>
+	<friction>0.99225</friction>
+	<speed>15.5</speed>
 </group>
