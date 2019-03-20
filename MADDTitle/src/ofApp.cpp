@@ -15,15 +15,7 @@ void ofApp::setup() {
 
 	showGui = false;
 	ofHideCursor();
-	cam.setDistance(800);
-
-	billboards.getVertices().resize(NUM_BILLBOARDS);
-	billboards.getColors().resize(NUM_BILLBOARDS);
-	billboards.getNormals().resize(NUM_BILLBOARDS, ofVec3f(0));
-
-	//billboards.setUsage(GL_DYNAMIC_DRAW);
-	billboards.setMode(OF_PRIMITIVE_POINTS);
-	ofDisableBlendMode();
+	cam.setDistance(1200);
 
 	ofToggleFullscreen();
 	ofSetWindowPosition(0, 0);
@@ -68,8 +60,13 @@ void ofApp::draw() {
 }
 
 void ofApp::initParticle() {
+	billboards.getVertices().resize(NUM_BILLBOARDS);
+	billboards.getColors().resize(NUM_BILLBOARDS);
+	billboards.getNormals().resize(NUM_BILLBOARDS, ofVec3f(0));
+	billboards.setMode(OF_PRIMITIVE_POINTS);
+	ofDisableBlendMode();
+
 	img.loadImage("logo.png");
-	//img.resize(ofGetWidth(), ofGetHeight());
 
 	for (int i = 0; i < NUM_BILLBOARDS; i++) {
 		while (1) {
