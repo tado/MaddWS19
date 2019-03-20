@@ -9,18 +9,12 @@ void ofApp::setup() {
 	gui.setup();
 	gui.add(particleSize.setup("Particle Size", 1500, 0, 10000));
 	gui.add(div.setup("div", 200, 10, 1000));
-	gui.add(friction.setup("friction", 0.8, 0.5, 1.0));
-	gui.add(speed.setup("speed", 0.05, 0.0, 1.0));
+	gui.add(friction.setup("friction", 0.99, 0.95, 1.0));
+	gui.add(speed.setup("speed", 0.05, 0.0, 100.0));
 	gui.loadFromFile("settings.xml");
 
 	showGui = false;
 	ofHideCursor();
-
-	//cam.setup(ofGetWidth(), ofGetHeight());
-	//cam.setScale(1, -1, 1);
-	//cam.setViewMode(ofxStereoCameraViewMode::PARALLEL);
-	//cam.setOutputMode(ofxStereoCameraOutputMode::CROSS_EYED);
-	//cam.setPhysicalEyeSeparation(4.0);
 	cam.setDistance(800);
 
 	billboards.getVertices().resize(NUM_BILLBOARDS);
@@ -37,6 +31,7 @@ void ofApp::setup() {
 
 	billboards.setUsage(GL_DYNAMIC_DRAW);
 	billboards.setMode(OF_PRIMITIVE_POINTS);
+	ofDisableBlendMode();
 
 	ofToggleFullscreen();
 	ofSetWindowPosition(0, 0);
@@ -46,13 +41,13 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	float t = (ofGetElapsedTimef()) * speed;
+	float t = (ofGetElapsedTimef()) * 10.0;
 	//float div = 200.0;
 	for (int i = 0; i < NUM_BILLBOARDS; i++) {
 		ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y / div, billboards.getVertex(i).z / div),
 			ofSignedNoise(billboards.getVertex(i).x / div, t, billboards.getVertex(i).z / div),
 			ofSignedNoise(billboards.getVertex(i).x / div, billboards.getVertex(i).y / div, t));
-		vec *= 10.0 * ofGetLastFrameTime();
+		vec *= speed * ofGetLastFrameTime();
 		billboardVels[i] += vec;
 		billboards.getVertices()[i] += billboardVels[i];
 		billboardVels[i] *= friction;
@@ -63,10 +58,10 @@ void ofApp::update() {
 void ofApp::draw() {
 	cam.begin();
 	ofSetColor(255);
-
 	ofPushMatrix();
 	ofRotateXDeg(ofGetElapsedTimef()*5.0);
-	ofRotateYDeg(ofGetElapsedTimef()*4.0);
+	//ofRotateYDeg(ofGetElapsedTimef()*7.0);
+	ofRotateZDeg(ofGetElapsedTimef()*9.0);
 
 	//ofEnableBlendMode(OF_BLENDMODE_ADD);
 	static GLfloat distance[] = { 0.0, 0.0, 1.0 };

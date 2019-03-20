@@ -29,7 +29,7 @@ public:
 	ofxFloatSlider friction;
 	ofxFloatSlider speed;
 
-	static const int NUM_BILLBOARDS = 60000;
+	static const int NUM_BILLBOARDS = 30000;
 	ofVboMesh billboards;
 	ofVec3f billboardVels[NUM_BILLBOARDS];
 	bool showGui;
