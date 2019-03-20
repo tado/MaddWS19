@@ -21,15 +21,7 @@ void ofApp::setup() {
 	billboards.getColors().resize(NUM_BILLBOARDS);
 	billboards.getNormals().resize(NUM_BILLBOARDS, ofVec3f(0));
 
-	float range = 100;
-	for (int i = 0; i < NUM_BILLBOARDS; i++) {
-		billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
-		billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0};
-		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
-		billboards.getColors()[i].set(255);
-	}
-
-	billboards.setUsage(GL_DYNAMIC_DRAW);
+	//billboards.setUsage(GL_DYNAMIC_DRAW);
 	billboards.setMode(OF_PRIMITIVE_POINTS);
 	ofDisableBlendMode();
 
@@ -37,12 +29,13 @@ void ofApp::setup() {
 	ofSetWindowPosition(0, 0);
 	ofSetWindowShape(1920 * 2, 1080 * 2);
 	gui.setPosition(40, 100);
+
+	initParticle();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	float t = (ofGetElapsedTimef()) * 10.0;
-	//float div = 200.0;
 	for (int i = 0; i < NUM_BILLBOARDS; i++) {
 		ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y / div, billboards.getVertex(i).z / div),
 			ofSignedNoise(billboards.getVertex(i).x / div, t, billboards.getVertex(i).z / div),
@@ -59,11 +52,7 @@ void ofApp::draw() {
 	cam.begin();
 	ofSetColor(255);
 	ofPushMatrix();
-	//ofRotateXDeg(ofGetElapsedTimef()*5.0);
-	//ofRotateYDeg(ofGetElapsedTimef()*7.0);
-	//ofRotateZDeg(ofGetElapsedTimef()*9.0);
-
-	//ofEnableBlendMode(OF_BLENDMODE_ADD);
+	ofRotateXDeg(-180);
 	static GLfloat distance[] = { 0.0, 0.0, 1.0 };
 	glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
 	glPointSize(particleSize);
@@ -78,14 +67,38 @@ void ofApp::draw() {
 	}
 }
 
+void ofApp::initParticle() {
+	img.loadImage("logo.png");
+	//img.resize(ofGetWidth(), ofGetHeight());
+
+	for (int i = 0; i < NUM_BILLBOARDS; i++) {
+		while (1) {
+			glm::vec3 pos = glm::vec3(ofRandom(img.getWidth()), ofRandom(img.getHeight()), 0);
+			ofColor col = img.getColor(pos.x, pos.y);
+			if (col.getBrightness() > 200) {
+				billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf());
+				billboards.getVertices()[i] = {pos.x - img.getWidth()/2, pos.y - img.getHeight()/2, 0 };
+				billboards.getColors()[i].set(col);
+				//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
+				break;
+			}
+		}
+	}
+	/*
+	float range = 100;
+	for (int i = 0; i < NUM_BILLBOARDS; i++) {
+		billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf());
+		billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0 };
+		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
+		billboards.getColors()[i].set(255);
+	}
+	*/
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 	if (key == 'r') {
-		float range = 100;
-		for (int i = 0; i < NUM_BILLBOARDS; i++) {
-			billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
-			billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0 };
-		}
+		initParticle();
 	}
 	else if (key == 'g') {
 		if (showGui == true) {

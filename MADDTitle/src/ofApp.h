@@ -9,6 +9,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void initParticle();
 
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -34,4 +35,6 @@ public:
 	ofVec3f billboardVels[NUM_BILLBOARDS];
 	bool showGui;
 	ofEasyCam cam;
+
+	ofImage img;
 };
