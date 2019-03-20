@@ -9,7 +9,7 @@ void ofApp::setup() {
 
 	gui.setup();
 	gui.add(physicalFocus.setup("Physical Focus Distance", 200, 0, 600));
-	gui.add(focusDistance.setup("Focus Distance", 750, 0, 1000));
+	gui.add(focusDistance.setup("Focus Distance", 750, 0, 2000));
 	gui.add(eyeSeparation.setup("Eye Separation", 5, 0, 20));
 	gui.add(particleSize.setup("Particle Size", 1500, 0, 10000));
 	gui.add(div.setup("div", 200, 10, 1000));

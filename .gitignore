@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+00_StereoSimpleBox/.vs/StereoSimpleBox/v15/.suo
+*.db
+*.ipch
+*.exp
+*.iobj
+*.ipdb
+*.tlog
+*.pdb
+*.log
+01_StereoCloud/.vs/StereoCloud/v15/.suo
+*.db-shm
+*.db-wal
+*.filters
+*.user

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <group>
 	<Physical_Focus_Distance>200</Physical_Focus_Distance>
-	<Focus_Distance>750</Focus_Distance>
+	<Focus_Distance>1630</Focus_Distance>
 	<Eye_Separation>5</Eye_Separation>
-	<Particle_Size>1500</Particle_Size>
+	<Particle_Size>1900</Particle_Size>
 	<div>118.9</div>
 	<friction>0.7075</friction>
 	<speed>0.05</speed>
