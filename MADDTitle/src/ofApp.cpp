@@ -24,7 +24,7 @@ void ofApp::setup() {
 	float range = 100;
 	for (int i = 0; i < NUM_BILLBOARDS; i++) {
 		billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
-		billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range),ofRandom(-range, range) };
+		billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0};
 		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
 		billboards.getColors()[i].set(255);
 	}
@@ -36,7 +36,7 @@ void ofApp::setup() {
 	ofToggleFullscreen();
 	ofSetWindowPosition(0, 0);
 	ofSetWindowShape(1920 * 2, 1080 * 2);
-	gui.setPosition(40, 40);
+	gui.setPosition(40, 100);
 }
 
 //--------------------------------------------------------------
@@ -59,9 +59,9 @@ void ofApp::draw() {
 	cam.begin();
 	ofSetColor(255);
 	ofPushMatrix();
-	ofRotateXDeg(ofGetElapsedTimef()*5.0);
+	//ofRotateXDeg(ofGetElapsedTimef()*5.0);
 	//ofRotateYDeg(ofGetElapsedTimef()*7.0);
-	ofRotateZDeg(ofGetElapsedTimef()*9.0);
+	//ofRotateZDeg(ofGetElapsedTimef()*9.0);
 
 	//ofEnableBlendMode(OF_BLENDMODE_ADD);
 	static GLfloat distance[] = { 0.0, 0.0, 1.0 };
@@ -84,7 +84,7 @@ void ofApp::keyPressed(int key) {
 		float range = 100;
 		for (int i = 0; i < NUM_BILLBOARDS; i++) {
 			billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
-			billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range),ofRandom(-range, range) };
+			billboards.getVertices()[i] = { ofRandom(-range, range),ofRandom(-range, range), 0 };
 		}
 	}
 	else if (key == 'g') {

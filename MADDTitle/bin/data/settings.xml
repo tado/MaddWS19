@@ -4,7 +4,7 @@
 	<Focus_Distance>750</Focus_Distance>
 	<Eye_Separation>5</Eye_Separation>
 	<Particle_Size>2350</Particle_Size>
-	<div>74.35</div>
-	<friction>0.9895</friction>
-	<speed>8.5</speed>
+	<div>54.55</div>
+	<friction>0.98625</friction>
+	<speed>18.5</speed>
 </group>
