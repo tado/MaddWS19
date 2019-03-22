@@ -6,7 +6,7 @@ void ofApp::setup() {
 	ofBackground(0);
 
 	gui.setup();
-	gui.add(particleSize.setup("Particle Size", 1500, 0, 10000));
+	gui.add(particleSize.setup("Particle Size", 1500, 0, 80000));
 	gui.add(div.setup("div", 200, 10, 1000));
 	gui.add(friction.setup("friction", 0.99, 0.95, 1.0));
 	gui.add(speed.setup("speed", 0.05, 0.0, 100.0));
@@ -16,12 +16,12 @@ void ofApp::setup() {
 	brightness = 0;
 	showGui = false;
 	ofHideCursor();
-	cam.setDistance(1200);
+	cam.setDistance(3400);
 
 	ofToggleFullscreen();
 	ofSetWindowPosition(0, 0);
 	ofSetWindowShape(1920 * 2, 1080 * 2);
-	gui.setPosition(40, 100);
+	gui.setPosition(40, 140);
 
 	initParticle();
 }
@@ -33,7 +33,7 @@ void ofApp::update() {
 			billboards.getColors()[i].set(brightness);
 		}
 		brightness += 0.01;
-		if (brightness > 1) {
+		if (brightness > 2.0) {
 			mode = 1;
 		}
 	}
@@ -58,7 +58,7 @@ void ofApp::draw() {
 	cam.begin();
 	if (mode == 0) {
 		ofSetColor(brightness * 255);
-		img.draw(-img.getWidth()/2, -img.getHeight()/2);
+		img.draw(-img.getWidth() / 2, -img.getHeight() / 2);
 	}
 	else {
 		ofPushMatrix();
@@ -73,8 +73,9 @@ void ofApp::draw() {
 	cam.end();
 
 	if (showGui) {
+		ofSetColor(255);
 		gui.draw();
-		ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 200);
+		ofDrawBitmapString(ofToString(ofGetFrameRate()), 40, 100);
 	}
 }
 
@@ -95,7 +96,7 @@ void ofApp::initParticle() {
 			glm::vec3 pos = glm::vec3(ofRandom(img.getWidth()), ofRandom(img.getHeight()), 0);
 			ofColor col = img.getColor(pos.x, pos.y);
 			if (col.getBrightness() > 200) {
-				billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf()*2);
+				billboardVels[i].set(ofRandomf(), ofRandomf(), ofRandomf() * 6);
 				billboards.getVertices()[i] = { pos.x - img.getWidth() / 2, pos.y - img.getHeight() / 2, 0 };
 				billboards.getColors()[i].set(0);
 				//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(80, 160), 180, 255));
